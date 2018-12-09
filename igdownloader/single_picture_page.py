@@ -24,3 +24,6 @@ def download_picture_page(session=None, page_url=None):
     src_url = inner_quote_content(html_text, best_src_index)
 
     return src_url
+
+# Rough skeleton of how to get best img url for a single image page
+print(download_picture_page())

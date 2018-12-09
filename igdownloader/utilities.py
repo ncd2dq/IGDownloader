@@ -138,6 +138,7 @@ def inner_quote_content(html_text: str, start: int) -> str:
 
     return final_str
 
+
 def inner_dict_key_content(html_text: str, start: int) -> str:
     '''
     ::param html_text:: requests.get() return string of html source code
@@ -145,7 +146,7 @@ def inner_dict_key_content(html_text: str, start: int) -> str:
     ::return::
     # Example ----
     1293, -> 1293
-    
+
     Find all string content before next ','
     Use this to parse dictionary key,value pairs
     '''
