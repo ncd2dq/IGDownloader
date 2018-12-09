@@ -26,4 +26,5 @@ def download_picture_page(session=None, page_url=None):
     return src_url
 
 # Rough skeleton of how to get best img url for a single image page
-print(download_picture_page())
+src_url = download_picture_page()
+save_page_content(src_url, session, 'test.jpg')
