@@ -2,8 +2,42 @@
 This module contains utility functions for parsing IG HTML source code
 '''
 from typing import List, Dict, Union, TypeVar
+from local.config import user_data
 
 SessionObj = TypeVar('requests.Session()')
+
+
+def login_session(session: SessionObj) -> SessionObj:
+    '''
+    ::param session:: A new requests Session
+    ::return:: requests session object that is logged in to IG
+    
+    To successfully login to instagram you need to make a post request with a 
+    csrf_token and a rollout_hash that are in the page HTML
+    '''
+    session = session
+    resp1 = session.get('https://www.instagram.com/accounts/login')
+    csrf_index = find_all_key_locs(resp1.text, key='"csrf_token":')[0]
+    csrf_token = inner_quote_content(resp1.text, csrf_index)
+    rollout_index = find_all_key_locs(resp1.text, key='"rollout_hash":')[0]
+    rollout_hash = inner_quote_content(resp1.text, rollout_index)
+
+    data = {
+            'username': user_data['email'],
+            'password': user_data['password'],
+            'queryParams': {}
+            }
+    headers = {'origin': 'https://www.instagram.com',
+                'referer': 'referer: https://www.instagram.com/accounts/login/',
+                'x-csrftoken': csrf_token,
+                'x-instagram-ajax': rollout_hash,
+                'x-requested-with': 'XMLHttpRequest'}
+
+    r = session.post('https://www.instagram.com/accounts/login/ajax/', data=data, headers=headers)
+    print('Did I login? : ', r.text)
+
+    return session
+
 
 def save_page_content(url: str, session: SessionObj, filename: str) -> None:
     '''
