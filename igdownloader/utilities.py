@@ -5,7 +5,6 @@ from typing import List, Dict, Union, TypeVar
 
 SessionObj = TypeVar('requests.Session()')
 
-
 def save_page_content(url: str, session: SessionObj, filename: str) -> None:
     '''
     ::param url:: URL for an image or video
